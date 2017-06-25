@@ -1,0 +1,108 @@
+﻿@model CustomerApplication.Models.CustomerViewModel
+
+@{
+    ViewBag.Title = "Search for Customer";
+}
+
+<h2>@ViewData["Title"]</h2>
+@section Scripts {
+    <script>
+  function FillState() {
+      var countryId = $('#Country').val();
+      if (countryId != null)
+      {
+          $.ajax({
+              url: '/CustomerAddress/PopulateState',
+              type: "GET",
+              dataType: "JSON",
+              data: { Country: countryId },
+              success: function (states) {
+                  $("#StateorProvince").html(""); // clear before appending new list
+                  $.each(states, function (i, state) {
+                      //debugger;
+                      var option = document.createElement("option");
+                      option.text = state.stateName;
+                      option.value = parseInt(state.stateId);
+                      option.id = parseInt(state.stateId);
+                      var select = document.getElementById("StateorProvince");
+                      select.appendChild(option);
+                  });
+                  var option = document.createElement("option");
+                  option.text = "Other";
+                  option.value = 82;
+                  option.id = 82;
+                  var select = document.getElementById("StateorProvince");
+                  select.appendChild(option);
+              }
+          });
+      }
+  }
+    </script>
+}
+<form asp-controller="Search" asp-action="SearchCustomer" method="get" class="form-horizontal" role="form">
+    <div class="form-horizontal">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Id" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <label asp-for="Phone" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <label asp-for="Street" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Street" class="form-control" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
+            <label asp-for="City" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <label asp-for="StateorProvince" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.StateorProvince, Enumerable.Empty<SelectListItem>(), "--Select Country First--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StateorProvince)
+            </div>
+            <label asp-for="Country" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.CountryList, "CountryId", "CountryName"), "--Select--", new { @class = "form-control", @onchange = "FillState()" })
+                @Html.ValidationMessageFor(model => model.Country)
+            </div>
+            <label asp-for="LicenseType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LicenseType" class="form-control" />
+                <span asp-validation-for="LicenseType" class="text-danger"></span>
+            </div>
+            <label asp-for="Value" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>

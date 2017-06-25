@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CustomerApplication.Models.Customer>
+
+@{
+    ViewBag.Title = "Customer Search Results";
+}
+<h2>Customer Search Results</h2>
+
+<p>
+    <input type="button" value="Home" onclick="location.href='@Url.Action("Index", "Customer")'" />
+</p>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.ActionLink("Detail", "Detail", "Customer", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>
+<div class="form-group">
+    <input type="button" value="Search Again" onclick="location.href='@Url.Action("Index", "Search")'" />
+</div>

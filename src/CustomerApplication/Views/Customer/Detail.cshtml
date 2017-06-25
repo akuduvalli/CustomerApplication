@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Customer Detail";
+}
+<h2 style="margin-left:480px; margin-right:auto;">Customer's Detail</h2>
+
+
+<b> Contact </b> @Html.ActionLink("Modify", "Edit", "Customer", new { id = ViewBag.Customer.Id })
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+        <tr>
+            <td>
+                @ViewBag.Customer.Id
+            </td>
+            <td>
+                @ViewBag.Customer.LastName
+            </td>
+            <td>
+                @ViewBag.Customer.FirstName
+            </td>
+            <td>
+                @ViewBag.Customer.Email
+            </td>
+            <td>
+                @ViewBag.Customer.Phone
+            </td>
+        </tr>
+</table>
+<br />
+<b> Address Information</b> @Html.ActionLink("Add / Modify", "AddressList", "CustomerAddress", new { CustomerID = ViewBag.Customer.Id })
+<table class="table">
+    <tr>
+        <th>Street</th>
+        <th>City</th>
+        <th>StateorProvince</th>
+        <th>Country</th>
+    </tr>
+
+    @foreach (var item in ViewBag.CustomerAddress)
+    {
+        <tr>
+            <td>
+               @item.Street
+            </td>
+            <td>
+               @item.City
+            </td>
+            <td>
+                @item.StateorProvince
+            </td>
+            <td>
+               @item.Country
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<b> License Information</b> @Html.ActionLink("Add / Modify", "LicenseList", "License", new { CustomerID = ViewBag.Customer.Id })
+<table class="table">
+    <tr>
+        <th>Type</th>
+        <th>Value</th>
+    </tr>
+
+    @foreach (var item in ViewBag.License)
+    {
+        <tr>
+            <td>
+                @item.LicenseType
+            </td>
+            <td>
+                @item.Value
+            </td>
+        </tr>
+    }
+</table>
+<p style="margin-left:560px; margin-right:auto;">
+    <input type="button" value="Close" onclick="location.href='@Url.Action("Index", "Customer")'" />
+</p>

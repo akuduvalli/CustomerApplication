@@ -1,0 +1,87 @@
+﻿@model CustomerApplication.Models.CustomerAddress
+
+@{
+    ViewBag.Title = "Edit Customer Address";
+}
+
+<h2>@ViewData["Title"]</h2>
+@section Scripts {
+    <script>
+  function FillState() {
+      var countryId = $('#Country').val();
+      if (countryId != null)
+      {
+          $.ajax({
+              url: '/CustomerAddress/PopulateState',
+              type: "GET",
+              dataType: "JSON",
+              data: { Country: countryId },
+              success: function (states) {
+                  $("#StateorProvince").html(""); // clear before appending new list
+                  $.each(states, function (i, state) {
+                      //debugger;
+                      var option = document.createElement("option");
+                      option.text = state.stateName;
+                      option.value = parseInt(state.stateId);
+                      option.id = parseInt(state.stateId);
+                      var select = document.getElementById("StateorProvince");
+                      select.appendChild(option);
+                  });
+                  var option = document.createElement("option");
+                  option.text = "Other";
+                  option.value = 82;
+                  option.id = 82;
+                  var select = document.getElementById("StateorProvince");
+                  select.appendChild(option);
+              }
+          });
+      }
+  }
+    </script>
+}
+<form asp-controller="CustomerAddress" asp-action="Update" method="post" class="form-horizontal" role="form">
+    <div class="form-horizontal">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @Html.HiddenFor(model => model.AddressId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.CustomerId, new { @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.CustomerId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Street, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Street)
+                @Html.ValidationMessageFor(model => model.Street)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City)
+                @Html.ValidationMessageFor(model => model.City)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StateorProvince, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.StateorProvince, new SelectList(ViewBag.StateList, "StateId", "StateName"), "--Select Country First--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StateorProvince)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Country, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Country, new SelectList(ViewBag.CountryList, "CountryId", "CountryName"), "--Select--", new { @class = "form-control", @onchange = "FillState()" })
+                @Html.ValidationMessageFor(model => model.Country)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>

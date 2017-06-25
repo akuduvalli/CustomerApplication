@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CustomerApplication.Models.CustomerAddressViewModel>
+
+@{
+    ViewBag.Title = "Customer Address List";
+}
+<h2>Customer's Address</h2>
+
+<p>
+    <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index", "Customer")'" />
+    @Html.ActionLink("Add New Address", "AddNewAddress","CustomerAddress", new { id = ViewData["CustomerId"] })
+</p>
+
+<table class="table">
+    <tr>
+        <th>Street</th>
+        <th>City</th>
+        <th>StateorProvince</th>
+        <th>Country</th>
+    </tr>
+
+    @foreach (var item in ViewBag.CustomerAddress)
+    {
+        <tr>
+            <td>
+                @item.Street
+            </td>
+            <td>
+                @item.City
+            </td>
+            <td>
+                @item.StateorProvince
+            </td>
+            <td>
+                @item.Country
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AddressId })
+            </td>
+        </tr>
+    }
+</table>

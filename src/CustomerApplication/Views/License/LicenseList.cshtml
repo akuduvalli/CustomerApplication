@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CustomerApplication.Models.License>
+
+@{
+    ViewBag.Title = "Customer License List";
+}
+<h2>License List</h2>
+
+<p>
+    <input type="button" value="Back to List" onclick="location.href='@Url.Action("Index", "Customer")'" />
+    @Html.ActionLink("Add New License", "AddNewLicense", "License", new { id = ViewData["CustomerId"] })
+</p>
+
+<table class="table">
+    <tr>
+        <th>Customer Id</th>
+        <th>License Type</th>
+        <th>Value</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LicenseType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId , licenseType = item.LicenseType })
+            </td>
+        </tr>
+    }
+</table>

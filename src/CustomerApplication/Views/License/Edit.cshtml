@@ -1,0 +1,40 @@
+﻿@model CustomerApplication.Models.License
+
+@{
+    ViewBag.Title = "Edit Customer License";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="License" asp-action="Update" method="post" class="form-horizontal" role="form">
+    <div class="form-horizontal">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @Html.HiddenFor(model => model.CustomerId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(model => model.CustomerId, new { @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.CustomerId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LicenseType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LicenseType)
+                @Html.ValidationMessageFor(model => model.LicenseType)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Value)
+                @Html.ValidationMessageFor(model => model.Value)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Update" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
